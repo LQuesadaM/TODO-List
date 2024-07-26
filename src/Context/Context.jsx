@@ -8,6 +8,7 @@ export const TaskContextProvider = (props) => {
   const [tasks, setTasks] = useState([])
   const [hasTask, setHasTask] = useState()
   const [countTask, setCountTask] = useState(0)
+  const [taskDone, setTaskDone] = useState([])
 
   // Createtask
   const createTask = (task) => {
@@ -19,6 +20,13 @@ export const TaskContextProvider = (props) => {
         done: false, // Crea una funcion que retorne el valor del chacked.
       },
     ])
+  }
+
+  // Chequea el evento
+  const checkedTask = (task) => {
+    setTasks(
+      tasks.map((t) => (t.task === task.task ? { ...t, done: !t.done } : t)),
+    )
   }
 
   useEffect(() => {
@@ -34,6 +42,11 @@ export const TaskContextProvider = (props) => {
       setHasTask(false)
     }
 
+    const done = tasks.filter((task) => {
+      return task.done !== false
+    })
+    setTaskDone(done)
+
     //  Save in localStorage
     window.localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
@@ -45,7 +58,15 @@ export const TaskContextProvider = (props) => {
 
   return (
     <TaskContext.Provider
-      value={{ tasks, createTask, deleteTask, hasTask, countTask }}
+      value={{
+        tasks,
+        createTask,
+        deleteTask,
+        hasTask,
+        countTask,
+        checkedTask,
+        taskDone,
+      }}
     >
       {props.children}
     </TaskContext.Provider>

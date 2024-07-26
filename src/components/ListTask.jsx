@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { TaskContext } from '../Context/Context'
 
 export const ListTask = () => {
-  const { tasks, deleteTask } = useContext(TaskContext)
+  const { tasks, deleteTask, checkedTask } = useContext(TaskContext)
 
   return (
     <section className="w-full space-y-6">
@@ -17,6 +17,7 @@ export const ListTask = () => {
               <input
                 type="checkbox"
                 className="peer size-5 rounded-full bg-inherit ring-1 ring-purple-700 checked:text-green-600 checked:ring-0"
+                onChange={() => checkedTask(task)}
               />
               <p className="break-words peer-[:checked]:line-through">
                 {task.task}
